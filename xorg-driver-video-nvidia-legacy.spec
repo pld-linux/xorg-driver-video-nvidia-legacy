@@ -25,7 +25,7 @@ Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{_nv_ver}-%{_nv_rel}/N
 # Source1-md5:	332850387c4e7a4619753b856e3199e5
 Patch0:		${name}-gcc34.patch
 Patch1:		%{name}-GL.patch
-Patch2:		%{name}-conftest.patch
+Patch2:		%{name}-verbose.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildConflicts:	XFree86-nvidia
