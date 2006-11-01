@@ -9,10 +9,11 @@
 %define		_nv_rel		7184
 %define		_min_x11	6.7.0
 %define		_rel		1
+%define		_patchname	X11-driver-nvidia
 #
 Summary:	Linux Drivers for nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl):	Sterowniki do kart graficznych nVidia TNT/TNT2/GeForce/Quadro
-Name:		X11-driver-nvidia
+Name:		X11-driver-nvidia-legacy
 Version:	%{_nv_ver}.%{_nv_rel}
 Release:	%{_rel}
 License:	nVidia Binary
@@ -23,9 +24,8 @@ Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{_nv_ver}-%{_nv_rel}/NVID
 # Source0-md5:	68cf7f155786daf6946b9daeb64c7a35
 Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{_nv_ver}-%{_nv_rel}/NVIDIA-Linux-x86_64-%{_nv_ver}-%{_nv_rel}-pkg2.run
 # Source1-md5:	332850387c4e7a4619753b856e3199e5
-Patch0:		%{name}-gcc34.patch
-Patch1:		%{name}-GL.patch
-Patch2:		%{name}-conftest.patch
+Patch0:		%{_patchname}-GL.patch
+Patch1:		%{_patchname}-conftest.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildConflicts:	XFree86-nvidia
@@ -167,7 +167,6 @@ rm -rf NVIDIA-Linux-x86*-%{_nv_ver}-%{_nv_rel}-pkg*
 %endif
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 sed -i 's:-Wpointer-arith::' usr/src/nv/Makefile.kbuild
 
 %build
