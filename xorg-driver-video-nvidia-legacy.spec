@@ -31,9 +31,9 @@ Patch2:		%{_patchname}-verbose.patch
 URL:		http://www.nvidia.com/object/linux.html
 BuildConflicts:	XFree86-nvidia
 BuildRequires:	grep
-%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 2.6.7}
+%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 2.6.7}
 BuildRequires:	%{kgcc_package}
-BuildRequires:	rpmbuild(macros) >= 1.213
+BuildRequires:	rpmbuild(macros) >= 1.326
 BuildRequires:	sed >= 4.0
 BuildRequires:	textutils
 #BuildRequires:	X11-devel >= %{_min_x11}	# disabled for now
@@ -111,7 +111,7 @@ Tools for advanced control of nVidia graphic cards.
 %description progs -l pl
 Narzêdzia do zarz±dzania kartami graficznymi nVidia.
 
-%package -n kernel-video-nvidia
+%package -n kernel%{_alt_kernel}-video-nvidia
 Summary:	nVidia kernel module for nVidia Architecture support
 Summary(de):	Das nVidia-Kern-Modul für die nVidia-Architektur-Unterstützung
 Summary(pl):	Modu³ j±dra dla obs³ugi kart graficznych nVidia
@@ -124,17 +124,17 @@ Requires:	dev >= 2.7.7-10
 Provides:	X11-driver-nvidia(kernel)
 Obsoletes:	XFree86-nvidia-kernel
 
-%description -n kernel-video-nvidia
+%description -n kernel%{_alt_kernel}-video-nvidia
 nVidia Architecture support for Linux kernel.
 
-%description -n kernel-video-nvidia -l de
+%description -n kernel%{_alt_kernel}-video-nvidia -l de
 Die nVidia-Architektur-Unterstützung für den Linux-Kern.
 
-%description -n kernel-video-nvidia -l pl
+%description -n kernel%{_alt_kernel}-video-nvidia -l pl
 Obs³uga architektury nVidia dla j±dra Linuksa. Pakiet wymagany przez
 sterownik nVidii dla XFree86 4.
 
-%package -n kernel-smp-video-nvidia
+%package -n kernel%{_alt_kernel}-smp-video-nvidia
 Summary:	nVidia kernel module for nVidia Architecture support
 Summary(de):	Das nVidia-Kern-Modul für die nVidia-Architektur-Unterstützung
 Summary(pl):	Modu³ j±dra dla obs³ugi kart graficznych nVidia
@@ -146,13 +146,13 @@ Requires:	dev >= 2.7.7-10
 Provides:	X11-driver-nvidia(kernel)
 Obsoletes:	XFree86-nvidia-kernel
 
-%description -n kernel-smp-video-nvidia
+%description -n kernel%{_alt_kernel}-smp-video-nvidia
 nVidia Architecture support for Linux kernel SMP.
 
-%description -n kernel-smp-video-nvidia -l de
+%description -n kernel%{_alt_kernel}-smp-video-nvidia -l de
 Die nVidia-Architektur-Unterstützung für den Linux-Kern SMP.
 
-%description -n kernel-smp-video-nvidia -l pl
+%description -n kernel%{_alt_kernel}-smp-video-nvidia -l pl
 Obs³uga architektury nVidia dla j±dra Linuksa SMP. Pakiet wymagany
 przez sterownik nVidii dla XFree86 4.
 
@@ -177,30 +177,7 @@ sed -i 's:-Wpointer-arith::' usr/src/nv/Makefile.kbuild
 %if %{with kernel}
 cd usr/src/nv/
 ln -sf Makefile.kbuild Makefile
-for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
-	if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
-		exit 1
-	fi
-	rm -rf include
-	install -d include/{linux,config}
-	ln -sf %{_kernelsrcdir}/config-$cfg .config
-	ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h include/linux/autoconf.h
-	ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} include/asm
-	touch include/config/MARKER
-	%{__make} -C %{_kernelsrcdir} clean \
-		RCS_FIND_IGNORE="-name '*.ko' -o -name nv-kernel.o -o" \
-		SYSSRC=%{_kernelsrcdir} \
-		SYSOUT=$PWD \
-		M=$PWD O=$PWD \
-		%{?with_verbose:V=1}
-	%{__make} -C %{_kernelsrcdir} modules \
-		CC="%{__cc}" CPP="%{__cpp}" \
-		SYSSRC=%{_kernelsrcdir} \
-		SYSOUT=$PWD \
-		M=$PWD O=$PWD \
-		%{?with_verbose:V=1}
-	mv nvidia.ko nvidia-$cfg.ko
-done
+%build_kernel_modules -m nvidia
 %endif
 
 %install
@@ -238,14 +215,7 @@ ln -sf %{_libdir}/libGL.so.1 $RPM_BUILD_ROOT/usr/%{_lib}/libGL.so.1
 ln -sf %{_libdir}/libGL.so $RPM_BUILD_ROOT/usr/%{_lib}/libGL.so
 
 %if %{with kernel}
-cd usr/src/nv/
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/misc
-install nvidia-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/nvidia.ko
-%if %{with smp} && %{with dist_kernel}
-install nvidia-smp.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/nvidia.ko
-%endif
+%install_kernel_modules -m usr/src/nv/nvidia -d misc
 %endif
 
 %clean
@@ -268,16 +238,16 @@ EOF
 
 %postun	-p /sbin/ldconfig
 
-%post	-n kernel-video-nvidia
+%post	-n kernel%{_alt_kernel}-video-nvidia
 %depmod %{_kernel_ver}
 
-%postun	-n kernel-video-nvidia
+%postun	-n kernel%{_alt_kernel}-video-nvidia
 %depmod %{_kernel_ver}
 
-%post	-n kernel-smp-video-nvidia
+%post	-n kernel%{_alt_kernel}-smp-video-nvidia
 %depmod %{_kernel_ver}smp
 
-%postun	-n kernel-smp-video-nvidia
+%postun	-n kernel%{_alt_kernel}-smp-video-nvidia
 %depmod %{_kernel_ver}smp
 
 %files
@@ -306,12 +276,12 @@ EOF
 %attr(755,root,root) %{_libdir}/modules/drivers/nvidia_drv.o
 
 %if %{with kernel}
-%files -n kernel-video-nvidia
+%files -n kernel%{_alt_kernel}-video-nvidia
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/misc/*.ko*
 
 %if %{with smp} && %{with dist_kernel}
-%files -n kernel-smp-video-nvidia
+%files -n kernel%{_alt_kernel}-smp-video-nvidia
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}smp/misc/*.ko*
 %endif
