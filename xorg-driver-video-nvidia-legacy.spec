@@ -33,7 +33,7 @@ BuildConflicts:	XFree86-nvidia
 BuildRequires:	grep
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 2.6.7}
 BuildRequires:	%{kgcc_package}
-BuildRequires:	rpmbuild(macros) >= 1.326
+BuildRequires:	rpmbuild(macros) >= 1.330
 BuildRequires:	sed >= 4.0
 BuildRequires:	textutils
 #BuildRequires:	X11-devel >= %{_min_x11}	# disabled for now
