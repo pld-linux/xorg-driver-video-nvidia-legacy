@@ -36,14 +36,14 @@ BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.330
 BuildRequires:	sed >= 4.0
 BuildRequires:	textutils
-#BuildRequires:	X11-devel >= %{_min_x11}	# disabled for now
-Requires:	X11-Xserver
-Requires:	X11-libs >= %{_min_x11}
-Requires:	X11-modules >= %{_min_x11}
+Requires:	xorg-xserver-server
+Provides:	OpenGL = 1.5
+Provides:	OpenGL-GLX
 Provides:	X11-OpenGL-core
 Provides:	X11-OpenGL-libGL
 Provides:	XFree86-OpenGL-core
 Provides:	XFree86-OpenGL-libGL
+Provides:	xorg-xserver-modules-libglx
 Obsoletes:	Mesa
 Obsoletes:	X11-OpenGL-core
 Obsoletes:	X11-OpenGL-libGL
@@ -56,10 +56,6 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLcore.so.1
-%define		_prefix		/usr/X11R6
-%ifarch %{x8664}
-%define		_libdir32	%{_prefix}/lib
-%endif
 
 %description
 This driver set adds improved 2D functionality to the XFree86 4.0 X
@@ -86,6 +82,8 @@ Summary:	OpenGL for X11R6 development (only gl?.h)
 Summary(pl):	Pliki nag³ówkowe OpenGL dla systemu X11R6 (tylko gl?.h)
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Provides:	OpenGL-GLX-devel
+Provides:	OpenGL-devel = 1.5
 Provides:	OpenGL-devel-base
 Obsoletes:	OpenGL-devel-base
 Obsoletes:	XFree86-driver-nvidia-devel
