@@ -9,10 +9,9 @@
 %define		_nv_rel		7184
 %define		_min_x11	6.7.0
 %define		_rel		1
-%define		_patchname	X11-driver-nvidia-legacy
 #
-Summary:	Linux Drivers for nVidia TNT/TNT2/GeForce/Quadro Chips
-Summary(pl.UTF-8):	Sterowniki do kart graficznych nVidia TNT/TNT2/GeForce/Quadro
+Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
+Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
 Name:		xorg-driver-video-nvidia-legacy
 Version:	%{_nv_ver}.%{_nv_rel}
 Release:	%{_rel}
@@ -23,9 +22,9 @@ Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{_nv_ver}-%{_nv_rel}/NVID
 # Source0-md5:	68cf7f155786daf6946b9daeb64c7a35
 Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{_nv_ver}-%{_nv_rel}/NVIDIA-Linux-x86_64-%{_nv_ver}-%{_nv_rel}-pkg2.run
 # Source1-md5:	332850387c4e7a4619753b856e3199e5
-Patch0:		%{_patchname}-gcc34.patch
-Patch1:		%{_patchname}-GL.patch
-Patch2:		%{_patchname}-verbose.patch
+Patch0:		X11-driver-nvidia-legacy-gcc34.patch
+Patch1:		X11-driver-nvidia-legacy-GL.patch
+Patch2:		X11-driver-nvidia-legacy-verbose.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildRequires:	%{kgcc_package}
@@ -50,24 +49,26 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLcore.so.1
 
 %description
-This driver set adds improved 2D functionality to the XFree86 4.0 X
-server as well as high performance OpenGL acceleration, AGP support,
-support for most flat panels, and 2D multiple monitor support.
+This driver set adds improved 2D functionality to the Xorg X server as
+well as high performance OpenGL acceleration, AGP support, support for
+most flat panels, and multiple monitor support.
 
-Hardware: nVidia TNT, TNT2, GeForce, or Quadro based graphics
-accelerator. The nVidia NV1 and RIVA 128/128ZX chips are supported in
-the base XFree86 4.0 install and are not supported by this driver set.
-
-Software: Linux kernel >= 2.2.12, XFree86 >= 4.0.
+Hardware: nVidia TNT, TNT2, GeForce, old GeForce2 or Quadro based
+graphics accelerator. New GeForce2, GeForce3 and GeForce4 adapters are
+supported by xorg-driver-video-nvidia package. The nVidia NV1 and RIVA
+128/128ZX chips are supported by Open-Source nv driver from Xorg suite
+and are no longer supported by vendor proprietary drivers.
 
 %description -l pl.UTF-8
-Usprawnione sterowniki dla kart graficznych nVidia do serwera XFree86
-4.0, dające wysokowydajną akcelerację OpenGL, obsługę AGP i wielu
-monitorów 2D.
+Usprawnione sterowniki dla kart graficznych nVidia do serwera Xorg X,
+dające wysokowydajną akcelerację OpenGL, obsługę AGP i wielu
+monitorów.
 
-Obsługują karty nVidia TNT/TNT2/GeForce/Quadro do serwera XFree86 4.0;
-Karty nVidia NV1 i Riva 128/128ZX są obsługiwane przez sterownik nv z
-pakietów XFree86 - NIE są obsługiwane przez ten pakiet.
+Obsługują karty nVidia TNT/TNT2/GeForce/starsze GeForce2/Quadro.
+Nowsze karty GeForce2, GeForce3 i GeForce4 są obsługiwane przez pakiet
+xorg-driver-video-nvidia. Karty nVidia NV1 i Riva 128/128ZX są
+obsługiwane przez otwarty sterownik nv z instalacji Xorg i nie są już
+obsługiwane przez własnościowe sterowniki producenta.
 
 %package devel
 Summary:	OpenGL for X11R6 development (only gl?.h)
