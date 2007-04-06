@@ -35,6 +35,7 @@ Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX
 Provides:	xorg-xserver-libglx
 Obsoletes:	Mesa
+Obsoletes:	Mesa-libGL
 Obsoletes:	X11-OpenGL-core < 1:7.0.0
 Obsoletes:	X11-OpenGL-libGL < 1:7.0.0
 Obsoletes:	XFree86-OpenGL-core < 1:7.0.0
