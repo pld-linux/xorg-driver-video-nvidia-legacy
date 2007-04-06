@@ -1,7 +1,6 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# without distribution kernel
-%bcond_without	smp		# without smp packages
 %bcond_without	kernel		# without kernel packages
 %bcond_with	verbose		# verbose build (V=1)
 #
@@ -111,7 +110,7 @@ Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
 Requires:	dev >= 2.7.7-10
-%{?with_dist_kernel:%requires_releq_kernel_up}
+%{?with_dist_kernel:%requires_releq_kernel}
 Provides:	X11-driver-nvidia(kernel)
 Obsoletes:	XFree86-nvidia-kernel
 
@@ -124,28 +123,6 @@ Die nVidia-Architektur-Unterstützung für den Linux-Kern.
 %description -n kernel%{_alt_kernel}-video-nvidia-legacy -l pl.UTF-8
 Obsługa architektury nVidia dla jądra Linuksa. Pakiet wymagany przez
 sterownik nVidii dla XFree86 4.
-
-%package -n kernel%{_alt_kernel}-smp-video-nvidia-legacy
-Summary:	nVidia kernel module for nVidia Architecture support
-Summary(de.UTF-8):	Das nVidia-Kern-Modul für die nVidia-Architektur-Unterstützung
-Summary(pl.UTF-8):	Moduł jądra dla obsługi kart graficznych nVidia
-Release:	%{_rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
-Requires(post,postun):	/sbin/depmod
-Requires:	dev >= 2.7.7-10
-%{?with_dist_kernel:%requires_releq_kernel_smp}
-Provides:	X11-driver-nvidia(kernel)
-Obsoletes:	XFree86-nvidia-kernel
-
-%description -n kernel%{_alt_kernel}-smp-video-nvidia-legacy
-nVidia Architecture support for Linux kernel SMP.
-
-%description -n kernel%{_alt_kernel}-smp-video-nvidia-legacy -l de.UTF-8
-Die nVidia-Architektur-Unterstützung für den Linux-Kern SMP.
-
-%description -n kernel%{_alt_kernel}-smp-video-nvidia-legacy -l pl.UTF-8
-Obsługa architektury nVidia dla jądra Linuksa SMP. Pakiet wymagany
-przez sterownik nVidii dla XFree86 4.
 
 %prep
 cd %{_builddir}
@@ -239,12 +216,6 @@ EOF
 %postun	-n kernel%{_alt_kernel}-video-nvidia-legacy
 %depmod %{_kernel_ver}
 
-%post	-n kernel%{_alt_kernel}-smp-video-nvidia-legacy
-%depmod %{_kernel_ver}smp
-
-%postun	-n kernel%{_alt_kernel}-smp-video-nvidia-legacy
-%depmod %{_kernel_ver}smp
-
 %files
 %defattr(644,root,root,755)
 %doc LICENSE
@@ -264,12 +235,6 @@ EOF
 %files -n kernel%{_alt_kernel}-video-nvidia-legacy
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/misc/*.ko*
-
-%if %{with smp} && %{with dist_kernel}
-%files -n kernel%{_alt_kernel}-smp-video-nvidia-legacy
-%defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}smp/misc/*.ko*
-%endif
 %endif
 
 %files devel
