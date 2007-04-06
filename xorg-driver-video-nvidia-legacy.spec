@@ -175,7 +175,7 @@ for f in \
 	install $f $RPM_BUILD_ROOT%{_libdir}
 done
 
-install usr/X11R6/lib/modules/drivers/nvidia_drv.o $RPM_BUILD_ROOT%{_libdir}/modules/drivers
+install usr/X11R6/lib/modules/drivers/nvidia_drv.o $RPM_BUILD_ROOT%{_libdir}/xorg/modules/drivers
 install usr/include/GL/*.h	$RPM_BUILD_ROOT%{_includedir}/GL
 
 ln -sf libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so
