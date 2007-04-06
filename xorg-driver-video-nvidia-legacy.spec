@@ -156,7 +156,7 @@ mv nv-kernel.o{,.bin}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/modules/{drivers,extensions} \
+install -d $RPM_BUILD_ROOT%{_libdir}/xorg/modules/{drivers,extensions} \
 $RPM_BUILD_ROOT{%{_includedir}/GL,%{_prefix}/%{_lib}/tls,%{_bindir}}
 
 ln -sf $RPM_BUILD_ROOT%{_libdir} $RPM_BUILD_ROOT%{_prefix}/../lib
@@ -164,7 +164,7 @@ ln -sf $RPM_BUILD_ROOT%{_libdir} $RPM_BUILD_ROOT%{_prefix}/../lib
 install usr/bin/nvidia-settings $RPM_BUILD_ROOT%{_bindir}
 install usr/lib/libnvidia-tls.so.%{version} $RPM_BUILD_ROOT%{_prefix}/%{_lib}
 install usr/X11R6/lib/modules/extensions/libglx.so.%{version} \
-	$RPM_BUILD_ROOT%{_libdir}/modules/extensions
+	$RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions
 
 for f in \
 	usr/lib/tls/libnvidia-tls.so.%{version}		\
@@ -179,7 +179,7 @@ install usr/X11R6/lib/modules/drivers/nvidia_drv.o $RPM_BUILD_ROOT%{_libdir}/mod
 install usr/include/GL/*.h	$RPM_BUILD_ROOT%{_includedir}/GL
 
 ln -sf libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so
-ln -sf libglx.so.%{version} $RPM_BUILD_ROOT%{_libdir}/modules/extensions/libglx.so
+ln -sf libglx.so.%{version} $RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions/libglx.so
 ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA.so
 
 # OpenGL ABI for Linux compatibility
@@ -228,8 +228,8 @@ EOF
 %attr(755,root,root) %{_prefix}/%{_lib}/libnvidia-tls.so.*.*.*
 %attr(755,root,root) %{_prefix}/%{_lib}/libGL.so.1
 %attr(755,root,root) %{_prefix}/%{_lib}/libGL.so
-%attr(755,root,root) %{_libdir}/modules/extensions/libglx.so*
-%attr(755,root,root) %{_libdir}/modules/drivers/nvidia_drv.o*
+%attr(755,root,root) %{_libdir}/xorg/modules/extensions/libglx.so*
+%attr(755,root,root) %{_libdir}/xorg/modules/drivers/nvidia_drv.o*
 
 %if %{with kernel}
 %files -n kernel%{_alt_kernel}-video-nvidia-legacy
