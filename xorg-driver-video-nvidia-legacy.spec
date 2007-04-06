@@ -230,7 +230,7 @@ EOF
 %attr(755,root,root) %{_prefix}/%{_lib}/libGL.so.1
 %attr(755,root,root) %{_prefix}/%{_lib}/libGL.so
 %attr(755,root,root) %{_libdir}/xorg/modules/extensions/libglx.so*
-%attr(755,root,root) %{_libdir}/xorg/modules/drivers/nvidia_drv.o*
+%attr(755,root,root) %{_libdir}/xorg/modules/drivers/nvidia_drv.so
 
 %if %{with kernel}
 %files -n kernel%{_alt_kernel}-video-nvidia-legacy
