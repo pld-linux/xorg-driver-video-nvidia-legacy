@@ -7,7 +7,7 @@
 %define		_nv_ver		1.0
 %define		_nv_rel		7184
 %define		_min_x11	6.7.0
-%define		_rel		1
+%define		_rel		2
 #
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
