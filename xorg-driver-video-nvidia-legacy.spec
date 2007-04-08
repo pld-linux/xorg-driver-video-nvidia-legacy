@@ -27,7 +27,7 @@ Patch2:		X11-driver-nvidia-legacy-verbose.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildRequires:	%{kgcc_package}
-%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 2.6.7}
+%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
 Requires:	xorg-xserver-server
