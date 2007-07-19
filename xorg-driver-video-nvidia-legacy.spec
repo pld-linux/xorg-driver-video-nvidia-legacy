@@ -5,9 +5,9 @@
 %bcond_with	verbose		# verbose build (V=1)
 #
 %define		_nv_ver		1.0
-%define		_nv_rel		7184
+%define		_nv_rel		7185
 %define		_min_x11	6.7.0
-%define		_rel		4
+%define		_rel		0.1
 #
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
@@ -18,16 +18,18 @@ License:	nVidia Binary
 Group:		X11
 # why not pkg0!?
 Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{_nv_ver}-%{_nv_rel}/NVIDIA-Linux-x86-%{_nv_ver}-%{_nv_rel}-pkg1.run
-# Source0-md5:	68cf7f155786daf6946b9daeb64c7a35
+# Source0-md5:	f382af60e932449e5e301f1b424d883f
 Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{_nv_ver}-%{_nv_rel}/NVIDIA-Linux-x86_64-%{_nv_ver}-%{_nv_rel}-pkg2.run
-# Source1-md5:	332850387c4e7a4619753b856e3199e5
+# Source1-md5:	cdca6c2eb474717935b76dd50c22323f
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		X11-driver-nvidia-legacy-verbose.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildRequires:	%{kgcc_package}
+%if %{with kernel}
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
+%endif
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
 Requires:	xorg-xserver-server
@@ -216,12 +218,11 @@ EOF
 %doc usr/share/doc/{README,NVIDIA_Changelog,XF86Config.sample}
 #%%lang(de) %doc usr/share/doc/README.DE
 %attr(755,root,root) %{_libdir}/libGL.so.*.*
+%attr(755,root,root) %{_libdir}/libGL.so.1
 %attr(755,root,root) %{_libdir}/libGL.so
 %attr(755,root,root) %{_libdir}/libGLcore.so.*.*
 %attr(755,root,root) %{_libdir}/libXvMCNVIDIA.so.*.*
-%attr(755,root,root) %{_prefix}/%{_lib}/libnvidia-tls.so.*.*.*
-%attr(755,root,root) %{_prefix}/%{_lib}/libGL.so.1
-%attr(755,root,root) %{_prefix}/%{_lib}/libGL.so
+%attr(755,root,root) %{_libdir}/libnvidia-tls.so.*.*.*
 %attr(755,root,root) %{_libdir}/xorg/modules/extensions/libglx.so*
 %attr(755,root,root) %{_libdir}/xorg/modules/drivers/nvidia_drv.so
 
@@ -234,6 +235,8 @@ EOF
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libXvMCNVIDIA.so
+# FIX me: include %dir or -devel: R: xorg-proto-glproto-devel
+%dir %{_includedir}/GL
 %{_includedir}/GL/*.h
 # -static
 %{_libdir}/libXvMCNVIDIA.a
