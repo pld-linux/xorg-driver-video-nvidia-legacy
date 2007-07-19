@@ -27,8 +27,8 @@ Patch2:		X11-driver-nvidia-legacy-verbose.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildRequires:	%{kgcc_package}
-%if %{with kernel}
-%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
+%if %{with kernel} && %{with dist_kernel}
+BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
@@ -159,13 +159,13 @@ mv nv-kernel.o{,.bin}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/xorg/modules/{drivers,extensions} \
-$RPM_BUILD_ROOT{%{_includedir}/GL,%{_prefix}/%{_lib}/tls,%{_bindir}}
+install -d $RPM_BUILD_ROOT%{_libdir}/{tls,xorg/modules/{drivers,extensions}} \
+$RPM_BUILD_ROOT{%{_includedir}/GL,%{_bindir}}
 
 ln -sf $RPM_BUILD_ROOT%{_libdir} $RPM_BUILD_ROOT%{_prefix}/../lib
 
 install usr/bin/nvidia-settings $RPM_BUILD_ROOT%{_bindir}
-install usr/lib/libnvidia-tls.so.%{version} $RPM_BUILD_ROOT%{_prefix}/%{_lib}
+install usr/lib/libnvidia-tls.so.%{version} $RPM_BUILD_ROOT%{_libdir}
 install usr/X11R6/lib/modules/extensions/libglx.so.%{version} \
 	$RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions
 
@@ -186,8 +186,8 @@ ln -sf libglx.so.%{version} $RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions/li
 ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA.so
 
 # OpenGL ABI for Linux compatibility
-ln -sf %{_libdir}/libGL.so.1 $RPM_BUILD_ROOT%{_prefix}/%{_lib}/libGL.so.1
-ln -sf %{_libdir}/libGL.so $RPM_BUILD_ROOT%{_prefix}/%{_lib}/libGL.so
+ln -sf %{_libdir}/libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so.1
+ln -sf %{_libdir}/libGL.so $RPM_BUILD_ROOT%{_libdir}/libGL.so
 
 %if %{with kernel}
 %install_kernel_modules -m usr/src/nv/nvidia -d misc
