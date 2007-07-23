@@ -181,13 +181,9 @@ done
 install usr/X11R6/lib/modules/drivers/nvidia_drv.so $RPM_BUILD_ROOT%{_libdir}/xorg/modules/drivers
 install usr/include/GL/*.h	$RPM_BUILD_ROOT%{_includedir}/GL
 
-ln -sf libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so
+ln -sf libGL.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libGL.so
 ln -sf libglx.so.%{version} $RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions/libglx.so
 ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA.so
-
-# OpenGL ABI for Linux compatibility
-ln -sf %{_libdir}/libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so.1
-ln -sf %{_libdir}/libGL.so $RPM_BUILD_ROOT%{_libdir}/libGL.so
 
 %if %{with kernel}
 %install_kernel_modules -m usr/src/nv/nvidia -d misc
@@ -218,7 +214,7 @@ EOF
 %doc usr/share/doc/{README,NVIDIA_Changelog,XF86Config.sample}
 #%%lang(de) %doc usr/share/doc/README.DE
 %attr(755,root,root) %{_libdir}/libGL.so.*.*
-%attr(755,root,root) %{_libdir}/libGL.so.1
+%attr(755,root,root) %ghost %{_libdir}/libGL.so.1
 %attr(755,root,root) %{_libdir}/libGL.so
 %attr(755,root,root) %{_libdir}/libGLcore.so.*.*
 %attr(755,root,root) %{_libdir}/libXvMCNVIDIA.so.*.*
@@ -235,7 +231,7 @@ EOF
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libXvMCNVIDIA.so
-# FIX me: include %dir or -devel: R: xorg-proto-glproto-devel
+# FIXME: include %dir or -devel: R: xorg-proto-glproto-devel
 %dir %{_includedir}/GL
 %{_includedir}/GL/*.h
 # -static
