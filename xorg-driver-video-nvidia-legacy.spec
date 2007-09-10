@@ -8,7 +8,7 @@
 %define		_nv_ver		1.0
 %define		_nv_rel		7185
 %define		_min_x11	6.7.0
-%define		_rel		1
+%define		_rel		2
 #
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
@@ -34,6 +34,7 @@ BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
 Requires:	xorg-xserver-server
+Requires:	xorg-xserver-server(videodrv-abi) = 1.2
 Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX = 1.3
 Provides:	xorg-xserver-libglx
