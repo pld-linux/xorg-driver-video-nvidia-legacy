@@ -5,26 +5,23 @@
 %bcond_without	userspace	# don't build userspace programs
 %bcond_with	verbose		# verbose build (V=1)
 #
-%define		_nv_ver		1.0
-%define		_nv_rel		7185
 %define		_min_x11	6.7.0
-%define		_rel		3
+%define		_rel		1
 #
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
 Name:		xorg-driver-video-nvidia-legacy
-Version:	%{_nv_ver}.%{_nv_rel}
+Version:	71.86.01
 Release:	%{_rel}
 License:	nVidia Binary
 Group:		X11
 # why not pkg0!?
-Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{_nv_ver}-%{_nv_rel}/NVIDIA-Linux-x86-%{_nv_ver}-%{_nv_rel}-pkg1.run
-# Source0-md5:	f382af60e932449e5e301f1b424d883f
-Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{_nv_ver}-%{_nv_rel}/NVIDIA-Linux-x86_64-%{_nv_ver}-%{_nv_rel}-pkg2.run
-# Source1-md5:	cdca6c2eb474717935b76dd50c22323f
+Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg1.run
+Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg2.run
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		X11-driver-nvidia-legacy-verbose.patch
+Patch3:		%{name}-desktop.patch
 # http://www.minion.de/files/1.0-6629/
 URL:		http://www.nvidia.com/object/linux.html
 BuildRequires:	%{kgcc_package}
@@ -34,7 +31,7 @@ BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
 Requires:	xorg-xserver-server
-Requires:	xorg-xserver-server(videodrv-abi) = 1.2
+Requires:	xorg-xserver-server(videodrv-abi) = 2.0
 Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX = 1.3
 Provides:	xorg-xserver-libglx
@@ -123,7 +120,7 @@ Narzędzia do zarządzania kartami graficznymi nVidia.
 Summary:	nVidia kernel module for nVidia Architecture support
 Summary(de.UTF-8):	Das nVidia-Kern-Modul für die nVidia-Architektur-Unterstützung
 Summary(pl.UTF-8):	Moduł jądra dla obsługi kart graficznych nVidia
-Version:	%{_nv_ver}.%{_nv_rel}
+Version:	%{version}
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -144,19 +141,22 @@ sterownik nVidii dla XFree86 4.
 
 %prep
 cd %{_builddir}
-rm -rf NVIDIA-Linux-x86*-%{_nv_ver}-%{_nv_rel}-pkg*
+rm -rf NVIDIA-Linux-x86*%{version}-pkg*
 %ifarch %{ix86}
 /bin/sh %{SOURCE0} --extract-only
-%setup -qDT -n NVIDIA-Linux-x86-%{_nv_ver}-%{_nv_rel}-pkg1
+%setup -qDT -n NVIDIA-Linux-x86-%{version}-pkg1
 %else
 /bin/sh %{SOURCE1} --extract-only
-%setup -qDT -n NVIDIA-Linux-x86_64-%{_nv_ver}-%{_nv_rel}-pkg2
+%setup -qDT -n NVIDIA-Linux-x86_64-%{version}-pkg2
 %endif
 %patch0 -p1
 %patch1 -p1
 %if %{with verbose}
-%patch2 -p0
+#patch2 -p0
+echo "ERROR: verbose patch is not upgraded for current version"
+exit 1
 %endif
+%patch3 -p1
 echo 'EXTRA_CFLAGS += -Wno-pointer-arith -Wno-sign-compare -Wno-unused' >> usr/src/nv/Makefile.kbuild
 
 %build
@@ -175,27 +175,18 @@ mv nv-kernel.o{,.bin}
 %install
 rm -rf $RPM_BUILD_ROOT
 %if %{with userspace}
-install -d $RPM_BUILD_ROOT%{_libdir}/xorg/modules/{drivers,extensions} \
-	$RPM_BUILD_ROOT{%{_includedir}/GL,%{_bindir}}
+install -d $RPM_BUILD_ROOT%{_includedir}/GL
 
-#ln -sf $RPM_BUILD_ROOT%{_libdir} $RPM_BUILD_ROOT%{_prefix}/../lib
+install -D {usr/bin,$RPM_BUILD_ROOT%{_bindir}}/nvidia-settings
+install -D {usr/lib/tls,$RPM_BUILD_ROOT%{_libdir}}/libnvidia-tls.so.%{version}
+install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}/xorg}/modules/extensions/libglx.so.%{version}
+install -D {usr/lib,$RPM_BUILD_ROOT%{_libdir}}/libGL.so.%{version}
+install -D {usr/lib,$RPM_BUILD_ROOT%{_libdir}}/libGLcore.so.%{version}
+install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}}/libXvMCNVIDIA.so.%{version}
+install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}}/libXvMCNVIDIA.a
 
-install usr/bin/nvidia-settings $RPM_BUILD_ROOT%{_bindir}
-install usr/lib/libnvidia-tls.so.%{version} $RPM_BUILD_ROOT%{_libdir}
-install usr/X11R6/lib/modules/extensions/libglx.so.%{version} \
-	$RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions
-
-for f in \
-	usr/lib/tls/libnvidia-tls.so.%{version}		\
-	usr/lib/libGL{,core}.so.%{version}		\
-	usr/X11R6/lib/libXvMCNVIDIA.so.%{version}	\
-	usr/X11R6/lib/libXvMCNVIDIA.a			\
-; do
-	install $f $RPM_BUILD_ROOT%{_libdir}
-done
-
-install usr/X11R6/lib/modules/drivers/nvidia_drv.so $RPM_BUILD_ROOT%{_libdir}/xorg/modules/drivers
-install usr/include/GL/*.h	$RPM_BUILD_ROOT%{_includedir}/GL
+install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}/xorg}/modules/drivers/nvidia_drv.so
+install usr/include/GL/*.h $RPM_BUILD_ROOT%{_includedir}/GL
 
 ln -sf libglx.so.%{version} $RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions/libglx.so
 ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA.so
@@ -204,6 +195,9 @@ ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA_dynam
 # OpenGL ABI for Linux compatibility
 ln -sf libGL.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libGL.so.1
 ln -sf libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so
+
+install -D {usr/share/applications,$RPM_BUILD_ROOT%{_desktopdir}}/nvidia-settings.desktop
+install -D {usr/share/pixmaps,$RPM_BUILD_ROOT%{_pixmapsdir}}/nvidia-settings.png
 %endif
 
 %if %{with kernel}
@@ -261,6 +255,8 @@ EOF
 %files progs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/nvidia-settings
+%{_desktopdir}/nvidia-settings.desktop
+%{_pixmapsdir}/nvidia-settings.png
 %endif
 
 %if %{with kernel}
