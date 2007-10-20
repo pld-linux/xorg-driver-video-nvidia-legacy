@@ -24,8 +24,7 @@ Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		X11-driver-nvidia-legacy-verbose.patch
 Patch3:		%{name}-desktop.patch
-# http://www.minion.de/files/1.0-6629/
-URL:		http://www.nvidia.com/object/linux.html
+URL:		http://www.nvidia.com/object/unix.html
 BuildRequires:	%{kgcc_package}
 %if %{with kernel} && %{with dist_kernel}
 BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
