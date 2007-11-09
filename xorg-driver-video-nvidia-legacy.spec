@@ -6,7 +6,7 @@
 %bcond_with	verbose		# verbose build (V=1)
 #
 %define		_min_x11	6.7.0
-%define		_rel		1
+%define		_rel		2
 #
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
@@ -37,13 +37,13 @@ Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX = 1.3
 Provides:	xorg-xserver-libglx
 Obsoletes:	Mesa
-Obsoletes:	Mesa-libGL
 Obsoletes:	X11-OpenGL-core < 1:7.0.0
 Obsoletes:	X11-OpenGL-libGL < 1:7.0.0
 Obsoletes:	XFree86-OpenGL-core < 1:7.0.0
 Obsoletes:	XFree86-OpenGL-libGL < 1:7.0.0
 Obsoletes:	XFree86-driver-nvidia
 Obsoletes:	XFree86-nvidia
+Conflicts:	Mesa-libGL
 Conflicts:	XFree86-OpenGL-devel <= 4.2.0-3
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
