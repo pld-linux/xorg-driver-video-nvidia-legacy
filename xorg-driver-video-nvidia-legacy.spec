@@ -8,7 +8,7 @@
 %undefine	with_userspace
 %endif
 
-+%define	pname		xorg-driver-video-nvidia-legacy
+%define		pname		xorg-driver-video-nvidia-legacy
 %define		rel		1
 
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
