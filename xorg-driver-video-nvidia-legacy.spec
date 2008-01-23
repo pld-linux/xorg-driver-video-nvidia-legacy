@@ -5,23 +5,27 @@
 %bcond_without	userspace	# don't build userspace programs
 %bcond_with	verbose		# verbose build (V=1)
 
+%if "%{_alt_kernel}" != "%{nil}"
+%undefine	with_userspace
+%endif
+
+%define		pname		xorg-driver-video-nvidia-legacy
 %define		rel		7
+
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
-Name:		xorg-driver-video-nvidia-legacy
+Name:		%{pname}%{_alt_kernel}
 Version:	71.86.01
 Release:	%{rel}
 License:	nVidia Binary
 Group:		X11
-# why not pkg0!?
 Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg1.run
 # Source0-md5:	a4d0d1eb2841a59a4156122a1c08249a
 Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg2.run
 # Source1-md5:	bb273998a661ef5b481e5cd19cf64a3b
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
-Patch2:		X11-driver-nvidia-legacy-verbose.patch
-Patch3:		%{name}-desktop.patch
+Patch2:		%{pname}-desktop.patch
 URL:		http://www.nvidia.com/object/unix.html
 BuildRequires:	%{kgcc_package}
 %if %{with kernel} && %{with dist_kernel}
@@ -74,7 +78,7 @@ obsługiwane przez własnościowe sterowniki producenta.
 Summary:	OpenGL (GL and GLX) header files
 Summary(pl.UTF-8):	Pliki nagłówkowe OpenGL (GL i GLX)
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{pname} = %{version}-%{release}
 Provides:	OpenGL-GLX-devel = 1.3
 Provides:	OpenGL-devel = 1.5
 Obsoletes:	X11-OpenGL-devel-base
@@ -94,7 +98,7 @@ firmy NVIDIA.
 Summary:	Static XvMCNVIDIA library
 Summary(pl.UTF-8):	Statyczna biblioteka XvMCNVIDIA
 Group:		X11/Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{pname}-devel = %{version}-%{release}
 
 %description static
 Static XvMCNVIDIA library.
@@ -106,7 +110,7 @@ Statyczna biblioteka XvMCNVIDIA.
 Summary:	Tools for advanced control of nVidia graphic cards
 Summary(pl.UTF-8):	Narzędzia do zarządzania kartami graficznymi nVidia
 Group:		Applications/System
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{pname} = %{version}-%{release}
 Obsoletes:	XFree86-driver-nvidia-progs
 
 %description progs
@@ -149,12 +153,7 @@ rm -rf NVIDIA-Linux-x86*%{version}-pkg*
 %endif
 %patch0 -p1
 %patch1 -p1
-%if %{with verbose}
-#patch2 -p0
-echo "ERROR: verbose patch is not upgraded for current version"
-exit 1
-%endif
-%patch3 -p1
+%patch2 -p1
 echo 'EXTRA_CFLAGS += -Wno-pointer-arith -Wno-sign-compare -Wno-unused' >> usr/src/nv/Makefile.kbuild
 
 %build
