@@ -10,19 +10,19 @@
 %endif
 
 %define		pname		xorg-driver-video-nvidia-legacy
-%define		rel		7
+%define		rel		1
 
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
 Name:		%{pname}%{_alt_kernel}
-Version:	71.86.01
+Version:	71.86.04
 Release:	%{rel}
 License:	nVidia Binary
 Group:		X11
 Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg1.run
-# Source0-md5:	a4d0d1eb2841a59a4156122a1c08249a
+# Source0-md5:	25bab42ae5295fc5b4baf01a774da25e
 Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg2.run
-# Source1-md5:	bb273998a661ef5b481e5cd19cf64a3b
+# Source1-md5:	a970dc3f2d8938472027b5a60db39b69
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
