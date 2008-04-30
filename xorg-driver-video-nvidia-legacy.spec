@@ -26,6 +26,7 @@ Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
+Patch3:		NVIDIA_kernel-71.86.04-2305230.diff
 URL:		http://www.nvidia.com/object/unix.html
 BuildRequires:	%{kgcc_package}
 %if %{with kernel} && %{with dist_kernel}
@@ -154,6 +155,9 @@ rm -rf NVIDIA-Linux-x86*%{version}-pkg*
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%if "%{_kernel_ver}" >= "2.6.25"
+%patch3 -p0
+%endif
 echo 'EXTRA_CFLAGS += -Wno-pointer-arith -Wno-sign-compare -Wno-unused' >> usr/src/nv/Makefile.kbuild
 
 %build
