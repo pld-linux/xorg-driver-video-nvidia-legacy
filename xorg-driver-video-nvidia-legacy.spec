@@ -10,7 +10,7 @@
 %endif
 
 %define		pname		xorg-driver-video-nvidia-legacy
-%define		rel		9
+%define		rel		10
 
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
