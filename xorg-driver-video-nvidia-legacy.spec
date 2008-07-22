@@ -10,23 +10,22 @@
 %endif
 
 %define		pname		xorg-driver-video-nvidia-legacy
-%define		rel		18
+%define		rel		1
 
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
 Name:		%{pname}%{_alt_kernel}
-Version:	71.86.04
+Version:	71.86.06
 Release:	%{rel}
 License:	nVidia Binary
 Group:		X11
-Source0:	http://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg1.run
-# Source0-md5:	25bab42ae5295fc5b4baf01a774da25e
-Source1:	http://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg2.run
-# Source1-md5:	a970dc3f2d8938472027b5a60db39b69
+Source0:	http://us.download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg1.run
+# Source0-md5:	dc9635a78dfb02cb533e2061866b70ce
+Source1:	http://us.download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg2.run
+# Source1-md5:	6d91b113d56e05ab16584ccb221aa48f
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
-Patch3:		NVIDIA_kernel-71.86.04-2305230.diff
 URL:		http://www.nvidia.com/object/unix.html
 BuildRequires:	%{kgcc_package}
 %if %{with kernel} && %{with dist_kernel}
@@ -155,9 +154,6 @@ rm -rf NVIDIA-Linux-x86*%{version}-pkg*
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%if "%{_kernel_ver}" >= "2.6.25"
-%patch3 -p0
-%endif
 echo 'EXTRA_CFLAGS += -Wno-pointer-arith -Wno-sign-compare -Wno-unused' >> usr/src/nv/Makefile.kbuild
 
 %build
