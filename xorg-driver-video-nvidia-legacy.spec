@@ -34,7 +34,8 @@ BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
 Requires:	xorg-xserver-server
-Requires:	xorg-xserver-server(videodrv-abi) = 2.0
+Requires:	xorg-xserver-server(videodrv-abi) >= 2.0
+Requires:	xorg-xserver-server(videodrv-abi) < 3.0
 Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX = 1.3
 Provides:	xorg-xserver-libglx
