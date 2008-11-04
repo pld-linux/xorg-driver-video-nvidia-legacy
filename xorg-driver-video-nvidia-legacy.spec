@@ -10,19 +10,19 @@
 %endif
 
 %define		pname		xorg-driver-video-nvidia-legacy
-%define		rel		9
+%define		rel		1
 
 Summary:	Linux Drivers for old nVidia TNT/TNT2/GeForce/Quadro Chips
 Summary(pl.UTF-8):	Sterowniki do starych kart graficznych nVidia TNT/TNT2/GeForce/Quadro
 Name:		%{pname}%{_alt_kernel}
-Version:	71.86.06
+Version:	71.86.07
 Release:	%{rel}
 License:	nVidia Binary
 Group:		X11
-Source0:	http://us.download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg1.run
-# Source0-md5:	dc9635a78dfb02cb533e2061866b70ce
-Source1:	http://us.download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg2.run
-# Source1-md5:	6d91b113d56e05ab16584ccb221aa48f
+Source0:	ftp://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg0.run
+# Source0-md5:	70dabbe1c88b564e5367d36c9c7badb9
+Source1:	ftp://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg1.run
+# Source1-md5:	587e9d7f3cc3b2c3d566091b50f4c136
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
@@ -147,10 +147,10 @@ cd %{_builddir}
 rm -rf NVIDIA-Linux-x86*%{version}-pkg*
 %ifarch %{ix86}
 /bin/sh %{SOURCE0} --extract-only
-%setup -qDT -n NVIDIA-Linux-x86-%{version}-pkg1
+%setup -qDT -n NVIDIA-Linux-x86-%{version}-pkg0
 %else
 /bin/sh %{SOURCE1} --extract-only
-%setup -qDT -n NVIDIA-Linux-x86_64-%{version}-pkg2
+%setup -qDT -n NVIDIA-Linux-x86_64-%{version}-pkg1
 %endif
 %patch0 -p1
 %patch1 -p1
