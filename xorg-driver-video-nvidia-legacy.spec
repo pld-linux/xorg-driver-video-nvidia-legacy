@@ -38,7 +38,7 @@ Requires:	xorg-xserver-server(videodrv-abi) >= 2.0
 Requires:	xorg-xserver-server(videodrv-abi) < 3.0
 Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX = 1.3
-Provides:	xorg-xserver-libglx
+Provides:	xorg-xserver-module(glx)
 Obsoletes:	Mesa
 Obsoletes:	X11-OpenGL-core < 1:7.0.0
 Obsoletes:	X11-OpenGL-libGL < 1:7.0.0
