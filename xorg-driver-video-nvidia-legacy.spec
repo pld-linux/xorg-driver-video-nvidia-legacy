@@ -10,7 +10,7 @@
 %endif
 
 %define		pname		xorg-driver-video-nvidia-legacy
-%define		rel		8
+%define		rel		9
 
 Summary:	Linux Drivers for very old nVidia Chips: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Summary(pl.UTF-8):	Sterowniki do bardzo starych kart graficznych nVidia: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
