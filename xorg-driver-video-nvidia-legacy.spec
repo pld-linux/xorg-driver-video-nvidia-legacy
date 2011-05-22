@@ -1,3 +1,5 @@
+# TODO
+# - use name like: nvidia-71xx and nvidia-96xx.
 #
 # Conditional build:
 %bcond_without	dist_kernel	# without distribution kernel
@@ -15,14 +17,14 @@
 Summary:	Linux Drivers for very old nVidia Chips: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Summary(pl.UTF-8):	Sterowniki do bardzo starych kart graficznych nVidia: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Name:		%{pname}%{_alt_kernel}
-Version:	71.86.13
+Version:	71.86.14
 Release:	%{rel}
 License:	nVidia Binary
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg0.run
-# Source0-md5:	e058328595aaad8558a58067d9580bb6
+# Source0-md5:	4f6685be83b39b1a22277c2715ec07e6
 Source1:	ftp://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg0.run
-# Source1-md5:	6f59f3dceb6074766d327805e66d58e3
+# Source1-md5:	c0ed1e41cd52e8e348f14298b56007af
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
