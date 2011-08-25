@@ -11,9 +11,8 @@
 %undefine	with_userspace
 %endif
 
-%define		pname		xorg-driver-video-nvidia-legacy
 %define		rel		1
-
+%define		pname		xorg-driver-video-nvidia-legacy
 Summary:	Linux Drivers for very old nVidia Chips: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Summary(pl.UTF-8):	Sterowniki do bardzo starych kart graficznych nVidia: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Name:		%{pname}%{_alt_kernel}
@@ -36,10 +35,11 @@ BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildConflicts:	XFree86-nvidia
 Requires:	xorg-xserver-server
-Requires:	xorg-xserver-server(videodrv-abi) >= 2.0
 Requires:	xorg-xserver-server(videodrv-abi) < 3.0
+Requires:	xorg-xserver-server(videodrv-abi) >= 2.0
 Provides:	OpenGL = 1.5
 Provides:	OpenGL-GLX = 1.3
+Provides:	xorg-driver-video
 Provides:	xorg-xserver-module(glx)
 Obsoletes:	Mesa
 Obsoletes:	X11-OpenGL-core < 1:7.0.0
@@ -60,22 +60,22 @@ This driver set adds improved 2D functionality to the Xorg X server as
 well as high performance OpenGL acceleration, AGP support, support for
 most flat panels, and multiple monitor support.
 
-Hardware: nVidia TNT, TNT2, Vanta, GeForce, old GeForce2 or Quadro based
-graphics accelerator. Most recent adapters are supported by
+Hardware: nVidia TNT, TNT2, Vanta, GeForce, old GeForce2 or Quadro
+based graphics accelerator. Most recent adapters are supported by
 xorg-driver-video-nvidia package. The nVidia NV1 and RIVA 128/128ZX
-chips are supported by Open-Source nv driver from Xorg suite
-and are no longer supported by vendor proprietary drivers.
+chips are supported by Open-Source nv driver from Xorg suite and are
+no longer supported by vendor proprietary drivers.
 
 %description -l pl.UTF-8
 Usprawnione sterowniki dla kart graficznych nVidia do serwera Xorg X,
 dające wysokowydajną akcelerację OpenGL, obsługę AGP i wielu
 monitorów.
 
-Obsługują karty nVidia TNT, TNT2, Vanta, GeForce, starsze GeForce2 Quadro.
-Najnowsze karty są obsługiwane przez pakiet xorg-driver-video-nvidia.
-Karty nVidia NV1 i Riva 128/128ZX są obsługiwane przez otwarty sterownik
-nv z instalacji Xorg i nie są już obsługiwane przez własnościowe
-sterowniki producenta.
+Obsługują karty nVidia TNT, TNT2, Vanta, GeForce, starsze GeForce2
+Quadro. Najnowsze karty są obsługiwane przez pakiet
+xorg-driver-video-nvidia. Karty nVidia NV1 i Riva 128/128ZX są
+obsługiwane przez otwarty sterownik nv z instalacji Xorg i nie są już
+obsługiwane przez własnościowe sterowniki producenta.
 
 %package devel
 Summary:	OpenGL (GL and GLX) header files
