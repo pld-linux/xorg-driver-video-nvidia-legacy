@@ -11,19 +11,19 @@
 %undefine	with_userspace
 %endif
 
-%define		rel		2
+%define		rel		1
 %define		pname		xorg-driver-video-nvidia-legacy
 Summary:	Linux Drivers for very old nVidia Chips: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Summary(pl.UTF-8):	Sterowniki do bardzo starych kart graficznych nVidia: TNT, TNT2, Vanta, Vanta LT, GeForce 256, GeForce DDR, GeForce2, Quadro2 Pro
 Name:		%{pname}%{_alt_kernel}
-Version:	71.86.14
+Version:	71.86.15
 Release:	%{rel}
 License:	nVidia Binary
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/Linux-x86/%{version}/NVIDIA-Linux-x86-%{version}-pkg0.run
-# Source0-md5:	4f6685be83b39b1a22277c2715ec07e6
+# Source0-md5:	b85cf9e01162c8a6313c95246266e905
 Source1:	ftp://download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}-pkg0.run
-# Source1-md5:	c0ed1e41cd52e8e348f14298b56007af
+# Source1-md5:	41d9a314b0530f09c170a8e3c079b57a
 Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
