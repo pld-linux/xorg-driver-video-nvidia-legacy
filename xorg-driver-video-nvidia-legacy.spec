@@ -210,9 +210,9 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 cat << EOF
-NOTE: You must install:
-kernel-video-nvidia-legacy-%{version}
-for this driver to work
+NOTE: You must also install kernel module for this driver to work:
+  kernel%{_alt_kernel}-video-nvidia-legacy-%{version}
+
 EOF
 
 %postun	-p /sbin/ldconfig
