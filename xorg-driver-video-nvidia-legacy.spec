@@ -177,16 +177,16 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with userspace}
 install -d $RPM_BUILD_ROOT%{_includedir}/GL
 
-install -D {usr/bin,$RPM_BUILD_ROOT%{_bindir}}/nvidia-settings
-install -D {usr/lib/tls,$RPM_BUILD_ROOT%{_libdir}}/libnvidia-tls.so.%{version}
-install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}/xorg}/modules/extensions/libglx.so.%{version}
-install -D {usr/lib,$RPM_BUILD_ROOT%{_libdir}}/libGL.so.%{version}
-install -D {usr/lib,$RPM_BUILD_ROOT%{_libdir}}/libGLcore.so.%{version}
-install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}}/libXvMCNVIDIA.so.%{version}
-install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}}/libXvMCNVIDIA.a
+install -Dp {usr/bin,$RPM_BUILD_ROOT%{_bindir}}/nvidia-settings
+install -Dp {usr/lib/tls,$RPM_BUILD_ROOT%{_libdir}}/libnvidia-tls.so.%{version}
+install -Dp {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}/xorg}/modules/extensions/libglx.so.%{version}
+install -Dp {usr/lib,$RPM_BUILD_ROOT%{_libdir}}/libGL.so.%{version}
+install -Dp {usr/lib,$RPM_BUILD_ROOT%{_libdir}}/libGLcore.so.%{version}
+install -Dp {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}}/libXvMCNVIDIA.so.%{version}
+install -Dp {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}}/libXvMCNVIDIA.a
 
-install -D {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}/xorg}/modules/drivers/nvidia_drv.so
-install usr/include/GL/*.h $RPM_BUILD_ROOT%{_includedir}/GL
+install -Dp {usr/X11R6/lib,$RPM_BUILD_ROOT%{_libdir}/xorg}/modules/drivers/nvidia_drv.so
+cp -p usr/include/GL/*.h $RPM_BUILD_ROOT%{_includedir}/GL
 
 ln -sf libglx.so.%{version} $RPM_BUILD_ROOT%{_libdir}/xorg/modules/extensions/libglx.so
 ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA.so
@@ -196,8 +196,8 @@ ln -sf libXvMCNVIDIA.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libXvMCNVIDIA_dynam
 ln -sf libGL.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libGL.so.1
 ln -sf libGL.so.1 $RPM_BUILD_ROOT%{_libdir}/libGL.so
 
-install -D {usr/share/applications,$RPM_BUILD_ROOT%{_desktopdir}}/nvidia-settings.desktop
-install -D {usr/share/pixmaps,$RPM_BUILD_ROOT%{_pixmapsdir}}/nvidia-settings.png
+install -Dp {usr/share/applications,$RPM_BUILD_ROOT%{_desktopdir}}/nvidia-settings.desktop
+install -Dp {usr/share/pixmaps,$RPM_BUILD_ROOT%{_pixmapsdir}}/nvidia-settings.png
 %endif
 
 %if %{with kernel}
