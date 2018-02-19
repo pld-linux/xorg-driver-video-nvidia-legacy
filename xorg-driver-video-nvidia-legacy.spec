@@ -28,7 +28,6 @@ Patch0:		X11-driver-nvidia-legacy-gcc34.patch
 Patch1:		X11-driver-nvidia-legacy-GL.patch
 Patch2:		%{pname}-desktop.patch
 URL:		http://www.nvidia.com/object/unix.html
-BuildRequires:	%{kgcc_package}
 %if %{with kernel} && %{with dist_kernel}
 BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2
 %endif
